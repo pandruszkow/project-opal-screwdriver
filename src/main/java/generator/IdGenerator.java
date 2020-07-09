@@ -1,13 +1,13 @@
 package generator;
 
 import domain.GubbinId;
-import domain.Prefix;
+import domain.Namespace;
 
 public abstract class IdGenerator {
-	protected final Prefix prefix;
+	protected final Namespace namespace;
 
-	public IdGenerator(Prefix prefix){
-		this.prefix = prefix;
+	public IdGenerator(Namespace namespace){
+		this.namespace = namespace;
 	};
 
 	public abstract GubbinId next();

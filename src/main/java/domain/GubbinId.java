@@ -1,24 +1,30 @@
 package domain;
 
+import java.util.Objects;
+
 public class GubbinId {
-	public Prefix prefix;
-	public String sequenceNumber;
+	private final String wrappedString;
 
-	//This should be machine-readable for matching to the right namespace by prefix
-	public String renderAsString() {
-		return new StringBuffer()
-				.append(prefix.renderAsString())
-				.append(prefix.separatorChar())
-				.append(sequenceNumber)
-				.toString();
-	}
-
-	public Prefix constructFromString() {
-		return null;
+	public GubbinId(String wrappedString) {
+		this.wrappedString = wrappedString;
 	}
 
 	@Override
 	public String toString() {
-		return renderAsString();
+		return wrappedString;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof GubbinId) {
+			return ((GubbinId) o).wrappedString.equals(this.wrappedString);
+		} else {
+			return Objects.equals(this, o);
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(wrappedString);
 	}
 }
