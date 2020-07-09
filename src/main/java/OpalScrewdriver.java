@@ -24,11 +24,6 @@ public class OpalScrewdriver {
 
 		app.before(GET_PATH, ctx -> log.info("Request received, parameters: {}", toJson(ctx.pathParamMap())));
 		app.get(GET_PATH, ctx -> retrieve(ctx));
-
-
-		Gubbin found = GUBBIN_DAO.findById("GUB-10");
-		found.setText("ModifiedfromJava2");
-		GUBBIN_DAO.saveChanges(found);
 	}
 
 	private static void create(Context ctx) {
