@@ -9,6 +9,11 @@ public class GubbinDao {
 		return COUCH_DB.find(Gubbin.class, id);
 	}
 
+	public Gubbin createNew(Gubbin gubbin) {
+		COUCH_DB.post(gubbin);
+		return findById(gubbin.getId());
+	}
+
 	public Gubbin saveChanges(Gubbin gubbin) {
 		COUCH_DB.update(gubbin);
 		return findById(gubbin.getId());

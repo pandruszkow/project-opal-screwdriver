@@ -1,9 +1,15 @@
+import data.Counter;
 import data.Gubbin;
+import feature.counters.CounterFormatterFactory;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import lombok.extern.slf4j.Slf4j;
+import util.network.CreationRequest;
 
-import static config.Config.COUCH_DB;
+import static config.Config.COUNTER_DAO;
+import static config.Config.GUBBIN_DAO;
+import static data.CounterType.ISSUE_NUMBER;
+import static util.JsonUtil.fromJson;
 import static util.JsonUtil.toJson;
 
 @Slf4j
@@ -19,17 +25,22 @@ public class OpalScrewdriver {
 		app.before(GET_PATH, ctx -> log.info("Request received, parameters: {}", toJson(ctx.pathParamMap())));
 		app.get(GET_PATH, ctx -> retrieve(ctx));
 
-		Gubbin gub = new Gubbin();
-		gub.setId("GUB-10");
-		gub.setText("CouchDBfromJava");
-		COUCH_DB.post(gub);
-		Gubbin found = COUCH_DB.find(Gubbin.class, "GUB-1");
-		log.info(toJson(found));
+
+		Gubbin found = GUBBIN_DAO.findById("GUB-10");
+		found.setText("ModifiedfromJava2");
+		GUBBIN_DAO.saveChanges(found);
 	}
 
 	private static void create(Context ctx) {
+		CreationRequest request = fromJson(ctx.body(), CreationRequest.class);
+		Counter counter = COUNTER_DAO.findByNamespace(request.Namespace);
+		COUNTER_DAO.increment(counter);
+		final String newId = CounterFormatterFactory.get(ISSUE_NUMBER, request.Namespace).format(counter);
+		final Gubbin newItem = new Gubbin();
+		newItem.setId(newId);
+		newItem.setText(request.Text);
 
-
+		ctx.result(toJson(GUBBIN_DAO.createNew(newItem)));
 	}
 
 	private static void retrieve(Context ctx) {

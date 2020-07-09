@@ -1,8 +1,8 @@
 package data;
 
 public class Gubbin {
-	public String _id;
-	public String _rev;
+	private String _id;
+	private String _rev;
 	public String Text;
 
 	public String getId() {
