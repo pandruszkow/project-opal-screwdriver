@@ -3,8 +3,11 @@ package feature.counters;
 import config.Config;
 import data.Counter;
 import lombok.Builder;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Builder
 public class CounterFormatter {
@@ -16,12 +19,16 @@ public class CounterFormatter {
 
 	public String format(Counter counter){
 		Long itemCount = counter.getItemCount();
-		return new StringBuffer()
-			.append(namespacePrefix)
-			.append(namespaceSeparator)
-			.append(numberPrefix)
-			.append(formatCounterValue.apply(itemCount))
-			.append(numberSuffix)
-			.toString();
+		var elements = Stream.of(
+			namespacePrefix,
+			namespaceSeparator,
+			numberPrefix,
+			formatCounterValue.apply(itemCount),
+			numberSuffix
+		);
+
+		return elements
+			.map(element -> StringUtils.defaultIfEmpty(element, ""))
+			.collect(Collectors.joining());
 	}
 }

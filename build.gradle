@@ -14,10 +14,15 @@ sourceCompatibility = 11
 targetCompatibility = 11
 
 dependencies {
+    //language extensions
+    compile 'org.apache.commons:commons-lang3:3.10'
+    //REST and persistence API frameworks
     compile 'io.javalin:javalin:3.9.1'
+    compile 'org.lightcouch:lightcouch:0.2.0'
+    //utility frameworks - logging, serdes
     compile "org.slf4j:slf4j-simple:1.7.30"
     compile 'com.google.code.gson:gson:2.4'
-    compile 'org.lightcouch:lightcouch:0.2.0'
+    //test frameworks
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 

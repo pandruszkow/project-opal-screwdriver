@@ -10,7 +10,7 @@ public class CounterFormatterFactory {
 	public static CounterFormatter get(CounterType type, String namespace) {
 		switch (type) {
 			case ISSUE_NUMBER:
-				createIssueNumber(namespace);
+				return createIssueNumber(namespace);
 			default:
 				throw new IllegalArgumentException("Unknown counter type");
 		}
